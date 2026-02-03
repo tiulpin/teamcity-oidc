@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<teamcity-plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:schemas-jetbrains-com:teamcity-plugin-v1-xml">
+  <info>
+    <name>teamcity-oidc</name>
+    <display-name>OIDC Token Provider</display-name>
+    <version>1.0-SNAPSHOT</version>
+    <description>Enables TeamCity to act as an OIDC Identity Provider, issuing signed JWT tokens for builds to authenticate with cloud providers (AWS, GCP, Azure) without storing long-lived credentials.</description>
+    <vendor>
+      <name>Community</name>
+    </vendor>
+  </info>
+  <!-- No minimum build requirement for broad compatibility -->
+  <deployment use-separate-classloader="true"/>
+</teamcity-plugin>

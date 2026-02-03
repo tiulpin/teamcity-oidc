@@ -1,0 +1,12 @@
+# Build output
+target/
+*.class
+*.jar
+*.zip
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store

@@ -104,9 +104,20 @@ gcloud auth login --cred-file=<(echo "{
 
 ## Security
 
+**Use at your own risk.** This plugin is provided as-is without warranty. That said, we've done our homework.
+
+The plugin was reviewed for common attack vectors: there are no SQL injection points (no database access), no command injection (no shell calls), no XSS in the JSP (uses TeamCity's safe form tags), and no path traversal (fixed file paths only). The JWKS and Discovery endpoints are intentionally public per OIDC spec - they only expose the public key, which is meant to be public. The private key never leaves the server.
+
+The test token endpoint (`/app/oidc/test/token`) is disabled by default and returns 404. Don't enable it in production - it bypasses authentication entirely.
+
+What this plugin cannot do: execute code on your server, read your database, access other builds' tokens, or leak your private key. What it can do: mint JWT tokens for builds that have the feature enabled. If someone compromises a build agent, they can use that build's token - but that's true of any secret you pass to a build.
+
+Bottom line: keep your TeamCity patched, don't enable the test endpoint, and configure tight IAM trust policies using the `sub` claim.
+
+**Recommendations:**
 - Tokens are short-lived (max 2 hours, tied to build timeout)
-- Private keys stored with restrictive file permissions
-- Tokens masked in build logs
+- Private keys stored with restrictive file permissions (0600)
+- Tokens masked in build logs automatically
 - Use `sub` claim conditions in IAM policies to restrict which builds can assume roles
 
 Example AWS IAM trust policy:

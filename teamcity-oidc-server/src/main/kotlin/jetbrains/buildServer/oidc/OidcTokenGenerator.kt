@@ -33,10 +33,10 @@ class OidcTokenGenerator(
             .expirationTime(Date.from(expiry))
             .notBeforeTime(Date.from(now))
             .jwtID(UUID.randomUUID().toString())
-            .claim("project_id", build.projectId)
-            .claim("project_name", build.buildType?.project?.name ?: build.projectId)
-            .claim("build_type_id", build.buildTypeId)
-            .claim("build_type_name", build.buildType?.name ?: build.buildTypeId)
+            .claim("project_id", build.projectExternalId)
+            .claim("project_name", build.buildType?.project?.name ?: build.projectExternalId)
+            .claim("build_type_id", build.buildTypeExternalId)
+            .claim("build_type_name", build.buildType?.name ?: build.buildTypeExternalId)
             .claim("build_id", build.buildId.toString())
             .claim("build_number", build.buildNumber)
             .claim("ref", getRef(build))
@@ -59,7 +59,7 @@ class OidcTokenGenerator(
     fun getIssuer(): String = "${webLinks.rootUrl.trimEnd('/')}${OidcConstants.OIDC_BASE_PATH}"
 
     private fun buildSubject(build: SRunningBuild): String {
-        return "project:${build.projectId}:build_type:${build.buildTypeId}:ref:${getRef(build)}"
+        return "project:${build.projectExternalId}:build_type:${build.buildTypeExternalId}:ref:${getRef(build)}"
     }
 
     private fun getRef(build: SBuild): String {

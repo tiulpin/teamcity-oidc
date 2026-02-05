@@ -266,8 +266,8 @@ class OidcTokenGeneratorTest {
         return mockk {
             every { buildId } returns 12345L
             every { buildNumber } returns "42"
-            every { projectId } returns "TestProject"
-            every { buildTypeId } returns "TestProject_Build"
+            every { projectExternalId } returns "TestProject"
+            every { buildTypeExternalId } returns "TestProject_Build"
             every { this@mockk.branch } returns defaultBranch
             every { this@mockk.buildType } returns defaultBuildType
             every { this@mockk.triggeredBy } returns defaultTriggeredBy
